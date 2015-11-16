@@ -4,9 +4,11 @@
  * @param jQuery 框架
  * @returns {Boolean}|object
  * @auth wangchao wangchaoxiaoban@gmail.com
- * @vision 2015年11月16日09:58:15
+ * @vision 1.0 2015年11月16日09:58:15
  * 请尊重作者劳动，转载和修改代码请注明出处！important
  * 后续作者在后面添加作者姓名和邮箱即可
+ * 
+ * @vision 2015年11月16日17:25:13 允许设置父节点，能够自动读取子节点
  **/
 
 ;(function(Zepto,jQuery,window,document,undefined) {
@@ -72,7 +74,12 @@
 					//第一步冒泡查找最上级ul
 					CI_this.options.currentImg=$(_this);
 					
-					CI_this._getParentUl(_this);
+					if(CI_this.options.currentUl){
+						CI_this.options.currentUl=$(CI_this.options.currentUl);
+					}else{
+						CI_this._getParentUl(_this);
+					}
+					
 					//第二步获得ul下面的li
 					CI_this.options.firstChild=$(CI_this.options.currentUl).find(':first-child');
 					
@@ -113,7 +120,7 @@
 					});
 					
 					//afterShow();
-					CI_this.options.afterShow.call(CI_this,CI_this.options);
+					//CI_this.options.afterShow.call(CI_this,CI_this.options);
 					
 				},
 				_show:function(){

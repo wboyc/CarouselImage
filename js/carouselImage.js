@@ -266,12 +266,12 @@
 										//右移
 										var left=parseInt($(ele).css('left'));
 										left=left-CI_this.options.windowWidth;
-										$(ele).animate({'left':left+'px'},100);
+										$(ele).animate({'left':left+'px'},200);
 									}else{
 										//最后一张返回第一张
 										var left=parseInt($(ele).css('left'));
 										left=CI_this.options.windowWidth*index;
-										$(ele).animate({'left':left+'px'},1);
+										$(ele).animate({'left':left+'px'},300);
 									}
 								});
 							}else if(changeX<-10){
@@ -280,12 +280,12 @@
 										//左移
 										var left=parseInt($(ele).css('left'));
 										left=left+CI_this.options.windowWidth;
-										$(ele).animate({'left':left+'px'},100);
+										$(ele).animate({'left':left+'px'},200);
 									}else{
 										//第一张返回到最后一张
 										var left=parseInt($(ele).css('left'));
 										left=-CI_this.options.windowWidth*(car_image.length-1-index);
-										$(ele).animate({'left':left+'px'},1);
+										$(ele).animate({'left':left+'px'},300);
 									}
 								});
 							}else{

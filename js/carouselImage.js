@@ -27,7 +27,7 @@
 	var carouseObj = function(){
 		var carouseImage = {
 				options:{
-						carouseBox:'carouselImage-box',
+						carouseBox:'carouselImage-box',//遮罩层
 						carouselList:[],
 						currentImg:[],//用户点击的image
 						imgList:[],//显示出来的所有image
@@ -40,7 +40,7 @@
 						startIndex:[],//第一次点击的图片索引
 						firstChild:'',//图片列表的第一级子节点
 						type:'touch',//默认的触发方式 touch 滑动|click 点击 
-						
+						currentIndex:0,//当前图片索引
 						onLoad:function(Obj){
 							//绑定点击之前的回调函数
 						},
@@ -60,8 +60,8 @@
 					$.extend(CI_this.options,param);//继承用户自定义方法
 					
 					$(elems).click(function(){
-						CI_this.options.onLoad.call(CI_this,CI_this.options);
 						CI_this._startshow(this);
+						CI_this.options.onLoad.call(CI_this,CI_this.options);
 					});
 					
 				},
@@ -106,6 +106,8 @@
 					
 
 					$(showhtml).appendTo('body');
+					
+					CI_this.options.currentIndex=CI_this.options.startIndex;
 					
 					//遍历处理image 显示出第一张图片
 					if(CI_this.options.type=='touch'){
@@ -208,18 +210,21 @@
 					//var _this=this;
 					car_image.click(function(){
 						var nowindex=$(this).attr('index');
-
+						
 						$.each(car_image,function(index,ele){
 							if(nowindex<car_image.length-1){
 								var left=parseInt($(ele).css('left'));
 								left=left-CI_this.options.windowWidth;
 								$(ele).css('left',left+'px');
+								CI_this.options.currentIndex=parseInt(nowindex)+1;
 							}else{
+								CI_this.options.currentIndex=0;
 								var left=parseInt($(ele).css('left'));
 								left=CI_this.options.windowWidth*index;
 								$(ele).css('left',left+'px');
 							}
 						});
+						CI_this.options.onChangeEnd.call(CI_this,CI_this.options);
 					});
 					
 					if(selectindex!=0 && selectindex<=car_image.length-1){
@@ -229,6 +234,7 @@
 							$(ele).css('left',left+'px');
 						});
 					}
+					
 				},
 				_touchMove:function(selectindex){
 					var CI_this=this;
@@ -260,6 +266,7 @@
 						this.addEventListener('touchend', function (e) {
 							e.preventDefault();
 							var nowindex=$(this).attr('index');
+							
 							if(changeX>10){
 								$.each(car_image,function(index,ele){
 									if(nowindex<car_image.length-1){
@@ -267,11 +274,13 @@
 										var left=parseInt($(ele).css('left'));
 										left=left-CI_this.options.windowWidth;
 										$(ele).animate({'left':left+'px'},200);
+										CI_this.options.currentIndex=parseInt(nowindex)+1;
 									}else{
 										//最后一张返回第一张
 										var left=parseInt($(ele).css('left'));
 										left=CI_this.options.windowWidth*index;
 										$(ele).animate({'left':left+'px'},400);
+										CI_this.options.currentIndex=0;
 									}
 								});
 							}else if(changeX<-10){

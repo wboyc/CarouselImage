@@ -30,26 +30,15 @@
 	</ul>
 </div>
 <script type="text/javascript" >
-var objss=$('.img').carouseWidget({
-	//type:'click'/touch,
-	onLoad:function(obj){
-		//console.log(obj._result.test);
-		console.log(this);
-		//alert();
+var obj=$('.img').carouseWidget({
+	//type:'click',//触发类型 click or touch
+	onLoad:function(obj){//第一次弹出图片之后执行的方法
+		console.log(obj.currentIndex);
 	},
-	onChangeBefore:function(obj){
-		console.log(obj);
-		console.log("s");
-	},
-	onChangeEnd:function(obj){
-		//console.log(obj);
-		//console.log(obj);
-		//console.log(obj.currentIndex);
-		//console.log(obj.imgList);
-		//console.log("s");
+	onChangeEnd:function(obj){//图片切换结束之后执行的方法
+		console.log(obj.currentIndex);//当前图片的索引 从0开始
 	},
 });
- 
 </script>
 </body>
 </html>
